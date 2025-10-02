@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <script src="./main.js" defer></script>
+        <link rel="stylesheet" href="./styles.css"/>
+    </head>
     <body>
-        <img 
-            src="https://github.com/thesleepyniko/pancakes-website/raw/pancakes.png"
-        />
-        <h1>Pancakes or waffles?</h1>
-        <p>Some people think Pancakes are better</p>
-        <p>Others think its waffles!</p>
+        <div class="content">
+            <img 
+                src="https://raw.githubusercontent.com/thesleepyniko/pancakes-website/main/pancakes.png"
+            />
+            <h1>Pancakes or waffles?</h1>
+            <p>Some people think Pancakes are better</p>
+            <p>Others think its waffles!</p>
+            <form id="commentForm">
+                <label for="firstname">First name: </label>
+                <input type="text" name="firstname"  required/>
+                <br>
+                <label for="comment">Comment:</label>
+                <input type="text" name="comment" required/>
+                <br>
+                <input type="submit" value="Submit!">
+            </form>
+            <div id="comments"></div>
+        </div>
     </body>
 </html>
