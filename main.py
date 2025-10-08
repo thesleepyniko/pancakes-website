@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(
     __name__,
-    static_folder="../frontend",
+    static_folder="static",
     static_url_path=""
 )
 
@@ -13,12 +13,12 @@ db = SQLAlchemy(app)
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    comment = db.Column(db.String, unique=True, nullable=False)
+    comment = db.Column(db.String, nullable=False)
     date = db.Column(db.String, nullable=False)
 
 @app.route("/")
 def index():
-    return send_from_directory("../frontend", "index.html")
+    return send_from_directory("static", "index.html")
 
 @app.route("/api/create", methods=["POST"])
 def create_comment():
