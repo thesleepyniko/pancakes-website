@@ -1,10 +1,19 @@
 from flask import Flask, send_from_directory, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(
     __name__,
     static_folder="static",
     static_url_path=""
+)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
 )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
@@ -17,10 +26,12 @@ class Comment(db.Model):
     date = db.Column(db.String, nullable=False)
 
 @app.route("/")
+@limiter.exempt
 def index():
     return send_from_directory("static", "index.html")
 
 @app.route("/api/create", methods=["POST"])
+@limiter.limit("10/day")
 def create_comment():
     data = request.get_json()
     new_comment = Comment(
@@ -33,6 +44,7 @@ def create_comment():
     return {"message": "comment added!"}, 201
 
 @app.route("/api/comments", methods=["GET"])
+@limiter.limit("8/minute")
 def get_comments():
     comments = Comment.query.all()
     return [{"id": c.id, "name": c.name, "comment": c.comment, "date": c.date} for c in comments]
