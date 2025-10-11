@@ -49,7 +49,5 @@ def get_comments():
     comments = Comment.query.all()
     return [{"id": c.id, "name": c.name, "comment": c.comment, "date": c.date} for c in comments]
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run()
+with app.app_context():
+    db.create_all()
